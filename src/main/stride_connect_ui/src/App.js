@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button, Container, Navbar} from "react-bootstrap";
 import Header from "./components/header/Header";
+import Content from "./components/content/Content";
 
 function App() {
   const sections = [
@@ -11,7 +12,11 @@ function App() {
   ]
 
   return (
-      <Header sections={sections}/>
+      <>
+        <Header sections={sections}/>
+        <Content/>
+      </>
+
   );
 }
 
