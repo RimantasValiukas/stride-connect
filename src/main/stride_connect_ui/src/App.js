@@ -1,9 +1,17 @@
+import React from 'react';
+import {Button, Container, Navbar} from "react-bootstrap";
+import Header from "./components/Header";
 
 function App() {
+  const sections = [
+    {title: 'Pradžia', url: '/'},
+    {title: 'Straipsniai', url: '/'},
+    {title: 'Varžybos', url: '/'},
+    {title: 'Kontaktai', url: '/'}
+  ]
+
   return (
-    <div>
-      Hello World
-    </div>
+      <Header sections={sections}/>
   );
 }
 
