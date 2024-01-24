@@ -1,10 +1,17 @@
-import {Container} from "react-bootstrap";
+import {CardText, Container} from "react-bootstrap";
 
 const Content = () => {
 
     return(
         <Container className="d-flex flex-column align-items-center justify-content-center">
-            Cia kazkas bus
+            <CardText>Cia kazkas bus Cia kazkas bus</CardText>
+            <CardText>Cia kazkas bus Cia kazkas bus</CardText>
+            <CardText>Cia kazkas bus Cia kazkas bus</CardText>
+            <CardText>Cia kazkas bus Cia kazkas bus</CardText>
+            <CardText>Cia kazkas bus Cia kazkas bus</CardText>
+            <CardText>Cia kazkas bus Cia kazkas bus</CardText>
+            <CardText>Cia kazkas bus Cia kazkas bus</CardText>
+            <CardText>Cia kazkas bus Cia kazkas bus</CardText>
         </Container>
     );
 }
