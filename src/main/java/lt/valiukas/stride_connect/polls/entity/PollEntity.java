@@ -22,12 +22,18 @@ public class PollEntity {
     @GeneratedValue
     @Column(columnDefinition = "uuid", updatable = false)
     private UUID pollId;
+    @Column
+    private UUID creatorId;
     @Column(nullable = false)
     private String name;
     @Column(length = 2000)
     private String description;
     @Column(nullable = false)
     private Timestamp date;
+    @Column(nullable = false)
+    Timestamp expirationDate;
+    @Column
+    private boolean active;
     @ElementCollection
     @CollectionTable(name = "votedUsers", joinColumns = @JoinColumn(name = "pollId"))
     @Column(name = "votedUser")
@@ -41,9 +47,12 @@ public class PollEntity {
     public static PollEntity convert(Poll poll) {
         return new PollEntity(
                 poll.getPollId(),
+                poll.getCreatorId(),
                 poll.getName(),
                 poll.getDescription(),
                 poll.getDate(),
+                poll.getExpirationDate(),
+                poll.isActive(),
                 poll.getVotedUsers(),
                 poll.getVariants()
         );

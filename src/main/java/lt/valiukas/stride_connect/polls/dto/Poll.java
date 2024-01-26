@@ -17,18 +17,24 @@ import java.util.UUID;
 @Getter
 public class Poll {
     private UUID pollId;
+    private UUID creatorId;
     private String name;
     private String description;
     private Timestamp date;
+    private Timestamp expirationDate;
+    private boolean active;
     private List<UUID> votedUsers;
     private Map<String, Integer> variants;
 
     public static Poll convert(PollEntity entity) {
         return  new Poll(
                 entity.getPollId(),
+                entity.getCreatorId(),
                 entity.getName(),
                 entity.getDescription(),
                 entity.getDate(),
+                entity.getExpirationDate(),
+                entity.isActive(),
                 entity.getVotedUsers(),
                 entity.getVariants()
         );

@@ -1,12 +1,12 @@
 package lt.valiukas.stride_connect.polls.service;
 
 import lt.valiukas.stride_connect.polls.dto.Poll;
+import lt.valiukas.stride_connect.polls.dto.PollUI;
 import lt.valiukas.stride_connect.polls.entity.PollEntity;
 import lt.valiukas.stride_connect.polls.repository.PollRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class PollService {
@@ -31,6 +31,26 @@ public class PollService {
 
     public void deletePollById(UUID pollId) {
         pollRepository.deleteById(pollId);
+    }
+
+    public Poll convertToPoll(PollUI pollUI) {
+        Poll poll = new Poll();
+        Map<String, Integer> variants = new HashMap<>();
+
+        for (String variant: pollUI.getVariants()) {
+            variants.put(variant, 0);
+        }
+
+        poll.setCreatorId(pollUI.getCreatorId());
+        poll.setName(pollUI.getName());
+        poll.setDescription(pollUI.getDescription());
+        poll.setDate(pollUI.getDate());
+        poll.setExpirationDate(pollUI.getExpirationDate());
+        poll.setActive(pollUI.isActive());
+        poll.setVotedUsers(new ArrayList<>());
+        poll.setVariants(variants);
+
+        return poll;
     }
 
 }
