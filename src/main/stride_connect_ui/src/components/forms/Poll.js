@@ -1,6 +1,13 @@
-import {FieldArray, Form, Formik} from "formik";
+import {Field, FieldArray, Form, Formik} from "formik";
 import {useState} from "react";
 import {Button, Container, FormControl, FormGroup, FormLabel, FormText, Stack} from "react-bootstrap";
+import {createPoll} from "../../api/pollApi";
+import Datetime from 'react-datetime';
+
+
+function DateTime() {
+    return null;
+}
 
 const Poll = () => {
 
@@ -8,11 +15,45 @@ const Poll = () => {
         {
             name: '',
             description: '',
-            variants: []
+            variants: [],
+            expirationDate: null
         }
     );
 
-    const onCreatePoll = {}
+    const CustomTextarea = ({field, form, ...props}) => (
+        <FormControl
+            as="textarea"
+            rows={3}
+            placeholder="Įveskite balsavimo aprašymą"
+            {...field}
+            {...props}
+        />
+    );
+
+    const handleChange = (value, field, form) => {
+        form.setFieldValue(field.name, value);
+    };
+
+
+    const onCreatePoll = (values, helper) => {
+        const date = Date.now();
+        const timestamp = values.expirationDate.valueOf();
+        const updatedPoll = {
+            ...values,
+            date: date,
+            votedUsers: [],
+            expirationDate: timestamp,
+            active: true
+
+        }
+
+        console.log(updatedPoll);
+
+        createPoll(updatedPoll)
+            .then(() => helper.resetForm())
+            .catch((error) => console.log(error))
+            .finally(() => helper.setSubmitting(false))
+    }
 
     return (
         <Formik initialValues={poll} onSubmit={onCreatePoll}>
@@ -24,14 +65,38 @@ const Poll = () => {
                             <Form>
                                 <FormGroup className="mb-3 mx-auto text-start" style={{maxWidth: '500px'}}>
                                     <FormLabel>Balsavimo pavadinimas</FormLabel>
-                                    <FormControl type="text" placeholder="Įveskite balsavimo pavadinimą"
-                                                 style={{backgroundColor: ' #fcfbf9'}}/>
+                                    <Field
+                                        type="text"
+                                        name="name"
+                                        as={FormControl}
+                                        placeholder="Įveskite balsavimo pavadinimą"
+                                        style={{backgroundColor: ' #fcfbf9'}}
+                                    />
                                 </FormGroup>
 
                                 <FormGroup className="mb-3 mx-auto text-start" style={{maxWidth: '500px'}}>
                                     <FormLabel>Balsavimo aprašymas</FormLabel>
-                                    <FormControl as="textarea" rows={3} placeholder="Įveskite balsavimo aprašymą"
-                                                 style={{backgroundColor: ' #fcfbf9'}}/>
+                                    <Field
+                                        component={CustomTextarea}
+                                        name="description"
+                                        style={{backgroundColor: ' #fcfbf9'}}
+                                    />
+                                </FormGroup>
+
+                                <FormGroup className="mb-3 mx-auto text-start" style={{maxWidth: '500px'}}>
+                                    <FormLabel>Galiojimo data</FormLabel>
+                                    <Field name="expirationDate">
+                                        {({field, form}) => (
+                                            <Datetime
+                                                {...field}
+                                                inputProps={{placeholder: 'Pasirinkite galiojimo datą'}}
+                                                dateFormat="YYYY-MM-DD"
+                                                timeFormat="HH:mm:ss"
+                                                onChange={(value) => handleChange(value, field, form)}
+                                                style={{backgroundColor: ' #fcfbf9'}}
+                                            />
+                                        )}
+                                    </Field>
                                 </FormGroup>
 
                                 <FieldArray name="variants">
@@ -41,7 +106,9 @@ const Poll = () => {
                                                 <FormGroup key={index} className="mb-3 mx-auto"
                                                            style={{maxWidth: '500px'}}>
                                                     <FormLabel>Variantas {index + 1}</FormLabel>
-                                                    <FormControl
+                                                    <Field
+                                                        as={FormControl}
+                                                        name={`variants[${index}]`}
                                                         type="text"
                                                         placeholder={`Įveskite variantą ${index + 1}`}
                                                         style={{backgroundColor: ' #fcfbf9', maxWidth: '500px'}}

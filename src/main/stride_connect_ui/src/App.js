@@ -4,6 +4,7 @@ import Content from "./components/content/Content";
 import Footer from "./components/footer/Footer";
 import {BrowserRouter} from "react-router-dom";
 
+
 function App() {
     const sections = [
         {title: 'Pradžia', url: '/'},
