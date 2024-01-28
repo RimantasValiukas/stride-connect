@@ -22,7 +22,8 @@ public class PollService {
     }
 
     public List<Poll> getPolls() {
-        return pollRepository.findAll().stream().map(Poll::convert).toList();
+        List<Poll> polls = pollRepository.findAll().stream().map(Poll::convert).toList();
+        return polls;
     }
 
     public Poll getPollById(UUID pollId) {

@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/polls")
@@ -19,9 +20,14 @@ public class PollController {
         this.pollService = pollService;
     }
 
-    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Poll> getPolls() {
         return pollService.getPolls();
+    }
+
+    @GetMapping(value = "/{pollId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Poll getPollById(@PathVariable UUID pollId) {
+        return pollService.getPollById(pollId);
     }
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
