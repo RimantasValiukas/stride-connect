@@ -14,6 +14,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "polls")
 public class PollEntity {
@@ -43,19 +44,6 @@ public class PollEntity {
     @Column(name = "count")
     private Map<String, Integer> variants;
 
-    public PollEntity(UUID pollId, UUID creatorId, String name, String description, Timestamp date, Timestamp expirationDate, boolean active, List<UUID> votedUsers, Map<String, Integer> variants) {
-        this.pollId = pollId;
-        this.creatorId = creatorId;
-        this.name = name;
-        this.description = description;
-        this.date = date;
-        this.expirationDate = expirationDate;
-        this.active = active;
-        this.votedUsers = votedUsers;
-        this.variants = variants;
-        checkIfTimePassed();
-    }
-
     public static PollEntity convert(Poll poll) {
         return new PollEntity(
                 poll.getPollId(),
@@ -68,14 +56,6 @@ public class PollEntity {
                 poll.getVotedUsers(),
                 poll.getVariants()
         );
-    }
-
-    private void checkIfTimePassed() {
-        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-
-        if (currentTime.before(expirationDate)) {
-            active = false;
-        }
     }
 
 }
