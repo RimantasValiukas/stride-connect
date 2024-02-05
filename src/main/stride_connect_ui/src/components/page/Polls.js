@@ -1,6 +1,7 @@
 import {Button, Card, Col, FormText, Row} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import {getPolls} from "../../api/pollApi";
+import LoadingCard from "../LoadingCard";
 
 const Polls = () => {
 
@@ -19,6 +20,7 @@ const Polls = () => {
         }, []);
 
     return(
+        loading ? <LoadingCard/> :
         <div className="mb-2">
             <Row className="justify-content-center align-items-center">
                 <Button href='/poll' size="lg" style={{backgroundColor: '#43535f', borderColor: '#43535f', marginBottom: '20px', maxWidth: '190px'}}>
