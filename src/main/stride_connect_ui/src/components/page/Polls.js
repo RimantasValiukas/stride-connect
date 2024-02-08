@@ -11,8 +11,6 @@ const Polls = () => {
     useEffect(() => {
         getPolls()
             .then(({data}) => {
-
-                console.log(data);
                 setPolls(data);
             })
             .catch((error) => console.log(error))
@@ -40,7 +38,7 @@ const Polls = () => {
                                 <Card.Text className="mx-auto" style={{maxWidth: '1000px', textAlign: 'justify'}}>
                                     {poll.description}
                                 </Card.Text>
-                                <Button size="sm" style={{backgroundColor: '#9dab9d', borderColor: '#9dab9d'}}>Balsuoti</Button>
+                                <Button href={`/polls/${poll.pollId}`} size="sm" style={{backgroundColor: '#9dab9d', borderColor: '#9dab9d'}}>Balsuoti</Button>
                             </Card.Body>
                         </Card>
                     </Col>

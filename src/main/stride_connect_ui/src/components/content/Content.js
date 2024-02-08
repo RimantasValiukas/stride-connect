@@ -2,6 +2,7 @@ import {CardText, Container} from "react-bootstrap";
 import {Route, Routes} from "react-router-dom";
 import Poll from "../forms/Poll";
 import Polls from "../page/Polls";
+import PollDetails from "../page/PollDetails";
 
 const Content = () => {
 
@@ -10,6 +11,7 @@ const Content = () => {
             <Routes>
                 <Route path={'/poll'} element={<Poll/>}/>
                 <Route path={'/polls'} element={<Polls/>}/>
+                <Route path={'/polls/:pollId'} element={<PollDetails/>}/>
 
             </Routes>
         </Container>
