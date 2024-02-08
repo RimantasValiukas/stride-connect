@@ -54,4 +54,17 @@ public class PollService {
         return poll;
     }
 
+    public void addVote(String option, UUID pollId) {
+        Poll poll = getPollById(pollId);
+
+        for (String key : poll.getVariants().keySet()) {
+            if (key.equals(option)) {
+                poll.getVariants().put(key, poll.getVariants().get(key) + 1);
+                break;
+            }
+        }
+
+        createPoll(poll);
+    }
+
 }
