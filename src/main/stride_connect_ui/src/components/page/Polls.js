@@ -28,14 +28,14 @@ const Polls = () => {
 
             <FormText style={{fontSize: '25px', marginBottom: '60px'}}>Aktyvūs balsavimai, atiduok savo balsą</FormText>
 
-            <Row xs={1} md={1} className="g-4 mt-2">
+            <Row xs={1} md={1} className="g-4 mt-2" style={{maxWidth: '1000px'}}>
                 {Array.from(polls).map((poll, idx) => (
                     <Col key={idx}>
                         <Card>
                             <Card.Header className="ml-2 d-flex justify-content-start text-left" style={{backgroundColor: '#dcbc7c'}}><i>Balsavimas sukurtas:</i>&nbsp; {new Date(poll.date).toLocaleString()}, &nbsp;<i>Autorius:</i>&nbsp; Vardenis Pavardenis</Card.Header>
                             <Card.Body style={{backgroundColor: '#f3f3eb'}}>
                                 <Card.Title>Balsavimo pavadinimas: {poll.name}</Card.Title>
-                                <Card.Text className="mx-auto" style={{maxWidth: '1000px', textAlign: 'justify'}}>
+                                <Card.Text className="mx-auto" style={{textAlign: 'justify'}}>
                                     {poll.description}
                                 </Card.Text>
                                 <Button href={`/polls/${poll.pollId}`} size="sm" style={{backgroundColor: '#9dab9d', borderColor: '#9dab9d'}}>Balsuoti</Button>
