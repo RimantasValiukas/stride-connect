@@ -1,7 +1,8 @@
 import {Button, Card, Col, FormText, Row} from "react-bootstrap";
 import {useEffect, useState} from "react";
-import {getPolls} from "../../api/pollApi";
+import {deletePoll, getPolls} from "../../api/pollApi";
 import LoadingCard from "../LoadingCard";
+import DeleteButton from "../DeleteButton";
 
 const Polls = () => {
 
@@ -16,6 +17,12 @@ const Polls = () => {
             .catch((error) => console.log(error))
             .finally(() => setLoading(false))
         }, []);
+
+    const deletePollById = (pollId) => {
+        deletePoll(pollId)
+            .then(() => window.location.reload())
+            .catch((error) => console.log(error))
+    }
 
     return(
         loading ? <LoadingCard/> :
@@ -39,6 +46,7 @@ const Polls = () => {
                                     {poll.description}
                                 </Card.Text>
                                 <Button href={`/polls/${poll.pollId}`} size="sm" style={{backgroundColor: '#9dab9d', borderColor: '#9dab9d'}}>Balsuoti</Button>
+                                <DeleteButton deleteFunction={() => deletePollById(poll.pollId)} />
                             </Card.Body>
                         </Card>
                     </Col>
