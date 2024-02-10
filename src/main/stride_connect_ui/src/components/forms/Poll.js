@@ -3,11 +3,9 @@ import {useState} from "react";
 import {Button, Container, FormControl, FormGroup, FormLabel, FormText, Stack} from "react-bootstrap";
 import {createPoll} from "../../api/pollApi";
 import Datetime from 'react-datetime';
-
-
-function DateTime() {
-    return null;
-}
+import {useNavigate} from "react-router-dom";
+import * as Yup from 'yup';
+import Feedback from "react-bootstrap/Feedback";
 
 const Poll = () => {
 
@@ -16,7 +14,16 @@ const Poll = () => {
             name: '',
             description: '',
             variants: [],
-            expirationDate: null
+            expirationDate: ''
+        }
+    );
+    const navigation = useNavigate();
+
+    const pollValidationScheme = Yup.object().shape(
+        {
+            name: Yup.string().required("Privalomas laukas").min(2, "Per trumpas pavadinmas").max(255, "Per ilgas pavadinimas"),
+            description: Yup.string().required("Privalomas laukas").min(5, "Per trumpas aprašymas").max(2000, "Per ilgas aprašymas"),
+            variants: Yup.array().of(Yup.string().required("Privalomas laukas").min(2, "Per trumpas variantas").max(255, "Per ilgas variantas"))
         }
     );
 
@@ -47,16 +54,16 @@ const Poll = () => {
 
         }
 
-        console.log(updatedPoll);
-
         createPoll(updatedPoll)
-            .then(() => helper.resetForm())
+            .then(() => navigation('/polls'))
             .catch((error) => console.log(error))
             .finally(() => helper.setSubmitting(false))
     }
 
     return (
-        <Formik initialValues={poll} onSubmit={onCreatePoll}>
+        <Formik initialValues={poll}
+                onSubmit={onCreatePoll}
+                validationSchema={pollValidationScheme}>
             {
                 props => (
                     <Container>
@@ -71,8 +78,17 @@ const Poll = () => {
                                         as={FormControl}
                                         placeholder="Įveskite balsavimo pavadinimą"
                                         style={{backgroundColor: ' #fcfbf9'}}
+                                        isValid={props.touched.name && !props.errors.name}
+                                        isInvalid={props.touched.name && !!props.errors.name}
+                                        value={props.values.name}
+                                        onChange={props.handleChange}
+                                        onBlur={props.handleBlur}
                                     />
+                                    <Feedback type="invalid">
+                                        {props.errors.name}
+                                    </Feedback>
                                 </FormGroup>
+
 
                                 <FormGroup className="mb-3 mx-auto text-start" style={{maxWidth: '500px'}}>
                                     <FormLabel>Balsavimo aprašymas</FormLabel>
@@ -80,21 +96,28 @@ const Poll = () => {
                                         component={CustomTextarea}
                                         name="description"
                                         style={{backgroundColor: ' #fcfbf9'}}
+                                        isValid={props.touched.description && !props.errors.description}
+                                        isInvalid={props.touched.description && !!props.errors.description}
+                                        value={props.values.description}
+                                        onChange={props.handleChange}
+                                        onBlur={props.handleBlur}
                                     />
+                                    <Feedback type="invalid">
+                                        {props.errors.description}
+                                    </Feedback>
                                 </FormGroup>
 
                                 <FormGroup className="mb-3 mx-auto text-start" style={{maxWidth: '500px'}}>
                                     <FormLabel>Galiojimo data</FormLabel>
                                     <Field name="expirationDate">
                                         {({field, form}) => (
-                                            <Datetime
-                                                {...field}
-                                                inputProps={{placeholder: 'Pasirinkite galiojimo datą'}}
-                                                dateFormat="YYYY-MM-DD"
-                                                timeFormat="HH:mm:ss"
-                                                onChange={(value) => handleChange(value, field, form)}
-                                                style={{backgroundColor: ' #fcfbf9'}}
-                                            />
+                                                <Datetime
+                                                    {...field}
+                                                    inputProps={{placeholder: 'Pasirinkite galiojimo datą'}}
+                                                    dateFormat="YYYY-MM-DD"
+                                                    timeFormat="HH:mm:ss"
+                                                    onChange={(value) => handleChange(value, field, form)}
+                                                />
                                         )}
                                     </Field>
                                 </FormGroup>
@@ -112,7 +135,15 @@ const Poll = () => {
                                                         type="text"
                                                         placeholder={`Įveskite variantą ${index + 1}`}
                                                         style={{backgroundColor: ' #fcfbf9', maxWidth: '500px'}}
+                                                        isValid={props.touched.variants && !props.errors.variants}
+                                                        isInvalid={props.touched.variants && !!props.errors.variants}
+                                                        value={props.values.variants}
+                                                        onChange={props.handleChange}
+                                                        onBlur={props.handleBlur}
                                                     />
+                                                    <Feedback type="invalid" className="ml-2 d-flex justify-content-start text-left">
+                                                        {props.errors.description}
+                                                    </Feedback>
                                                     <Button
                                                         type="button"
                                                         onClick={() => arrayHelpers.remove(index)}
