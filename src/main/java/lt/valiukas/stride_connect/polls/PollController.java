@@ -45,4 +45,11 @@ public class PollController {
         String vote = option.getOption();
         pollService.addVote(vote, pollId);
     }
+
+    @DeleteMapping("/delete/{pollId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletePollById(@PathVariable UUID pollId) {
+        pollService.deletePollById(pollId);
+    }
+
 }
