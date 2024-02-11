@@ -6,6 +6,7 @@ import lt.valiukas.stride_connect.polls.dto.Vote;
 import lt.valiukas.stride_connect.polls.service.PollService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class PollController {
         return pollService.getPollById(pollId);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public void createPoll(@RequestBody PollUI pollUI) {
@@ -39,6 +41,7 @@ public class PollController {
         pollService.createPoll(poll);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PutMapping(value = "/update/{pollId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void addVote(@RequestBody Vote option, @PathVariable UUID pollId) {
@@ -46,6 +49,7 @@ public class PollController {
         pollService.addVote(vote, pollId);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{pollId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePollById(@PathVariable UUID pollId) {
