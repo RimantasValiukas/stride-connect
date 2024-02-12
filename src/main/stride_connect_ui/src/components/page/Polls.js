@@ -39,7 +39,9 @@ const Polls = () => {
                 {Array.from(polls).map((poll, idx) => (
                     <Col key={idx}>
                         <Card>
-                            <Card.Header className="ml-2 d-flex justify-content-start text-left" style={{backgroundColor: '#dcbc7c'}}><i>Balsavimas sukurtas:</i>&nbsp; {new Date(poll.date).toLocaleString()}, &nbsp;<i>Autorius:</i>&nbsp; Vardenis Pavardenis</Card.Header>
+                            <Card.Header className="ml-2 d-flex justify-content-start text-left" style={{backgroundColor: '#dcbc7c'}}>
+                                <i>Balsavimas sukurtas:</i>&nbsp; {new Date(poll.date).toLocaleString()}, &nbsp;<i>Autorius:</i>&nbsp; Vardenis Pavardenis
+                            </Card.Header>
                             <Card.Body style={{backgroundColor: '#f3f3eb'}}>
                                 <Card.Title>Balsavimo pavadinimas: {poll.name}</Card.Title>
                                 <Card.Text className="mx-auto" style={{textAlign: 'justify'}}>

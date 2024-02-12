@@ -1,6 +1,6 @@
 import Chart from 'react-apexcharts'
 import {useEffect, useState} from "react";
-import {Container} from "react-bootstrap";
+import {Container, FormText} from "react-bootstrap";
 const Donut = ({pollOptions}) => {
 
     const [options, setOptions] = useState({
@@ -30,6 +30,7 @@ const Donut = ({pollOptions}) => {
     return (
         <Container className="d-flex flex-column align-items-center justify-content-center text-center mx-auto">
             <div className="donut">
+                <FormText style={{fontSize: '25px', marginTop: '50px'}}>Balsavimo rezultatai:</FormText>
                 <Chart options={options} series={options.series} type="donut" width="380"/>
             </div>
         </Container>
