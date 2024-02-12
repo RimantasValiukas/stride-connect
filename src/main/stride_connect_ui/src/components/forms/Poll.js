@@ -6,6 +6,7 @@ import Datetime from 'react-datetime';
 import {useNavigate} from "react-router-dom";
 import * as Yup from 'yup';
 import Feedback from "react-bootstrap/Feedback";
+import FormField from "./FormField";
 
 const Poll = () => {
 
@@ -70,54 +71,34 @@ const Poll = () => {
                         <Stack spacing={2} direction="column">
                             <FormText style={{fontSize: '25px', marginBottom: '30px'}}>Sukurti balsavimą</FormText>
                             <Form>
-                                <FormGroup className="mb-3 mx-auto text-start" style={{maxWidth: '500px'}}>
-                                    <FormLabel>Balsavimo pavadinimas</FormLabel>
-                                    <Field
-                                        type="text"
-                                        name="name"
-                                        as={FormControl}
-                                        placeholder="Įveskite balsavimo pavadinimą"
-                                        style={{backgroundColor: ' #fcfbf9'}}
-                                        isValid={props.touched.name && !props.errors.name}
-                                        isInvalid={props.touched.name && !!props.errors.name}
-                                        value={props.values.name}
-                                        onChange={props.handleChange}
-                                        onBlur={props.handleBlur}
-                                    />
-                                    <Feedback type="invalid">
-                                        {props.errors.name}
-                                    </Feedback>
-                                </FormGroup>
+                                <FormField name="name"
+                                           label="Balsavimo pavadinimas"
+                                           placeholder="Įveskite balsavimo pavadinimą"
+                                           error={props.errors.name}
+                                           touched={props.touched.name}
+                                           value={props.values.name}
+                                           onChange={props.handleChange}
+                                           onBlur={props.handleBlur}
+                                />
 
-
-                                <FormGroup className="mb-3 mx-auto text-start" style={{maxWidth: '500px'}}>
-                                    <FormLabel>Balsavimo aprašymas</FormLabel>
-                                    <Field
-                                        component={CustomTextarea}
-                                        name="description"
-                                        style={{backgroundColor: ' #fcfbf9'}}
-                                        isValid={props.touched.description && !props.errors.description}
-                                        isInvalid={props.touched.description && !!props.errors.description}
-                                        value={props.values.description}
-                                        onChange={props.handleChange}
-                                        onBlur={props.handleBlur}
-                                    />
-                                    <Feedback type="invalid">
-                                        {props.errors.description}
-                                    </Feedback>
-                                </FormGroup>
+                                <FormField name="description"
+                                           label="Balsavimo aprašymas"
+                                           error={props.errors.description}
+                                           touched={props.touched.description}
+                                           value={props.values.description}
+                                           component={CustomTextarea}/>
 
                                 <FormGroup className="mb-3 mx-auto text-start" style={{maxWidth: '500px'}}>
                                     <FormLabel>Galiojimo data</FormLabel>
                                     <Field name="expirationDate">
                                         {({field, form}) => (
-                                                <Datetime
-                                                    {...field}
-                                                    inputProps={{placeholder: 'Pasirinkite galiojimo datą'}}
-                                                    dateFormat="YYYY-MM-DD"
-                                                    timeFormat="HH:mm:ss"
-                                                    onChange={(value) => handleChange(value, field, form)}
-                                                />
+                                            <Datetime
+                                                {...field}
+                                                inputProps={{placeholder: 'Pasirinkite galiojimo datą'}}
+                                                dateFormat="YYYY-MM-DD"
+                                                timeFormat="HH:mm:ss"
+                                                onChange={(value) => handleChange(value, field, form)}
+                                            />
                                         )}
                                     </Field>
                                 </FormGroup>
@@ -141,7 +122,8 @@ const Poll = () => {
                                                         onChange={props.handleChange}
                                                         onBlur={props.handleBlur}
                                                     />
-                                                    <Feedback type="invalid" className="ml-2 d-flex justify-content-start text-left">
+                                                    <Feedback type="invalid"
+                                                              className="ml-2 d-flex justify-content-start text-left">
                                                         {props.errors.description}
                                                     </Feedback>
                                                     <Button
