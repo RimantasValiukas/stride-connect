@@ -1,6 +1,7 @@
-import {Button, Col, Container, Nav, Navbar, Row} from "react-bootstrap";
+import {Button, Col, Container, Nav, Navbar, NavLink, Row} from "react-bootstrap";
 import React from "react";
 import logo from './logo.png';
+import {FaSignInAlt} from "react-icons/fa";
 
 const Header = (props) => {
     const {sections} = props;
@@ -35,6 +36,11 @@ const Header = (props) => {
                                     ))}
                                 </Nav>
                             </Navbar.Collapse>
+                            <Navbar.Brand className="ml-auto">
+                                <NavLink href='/login' >
+                                    <FaSignInAlt style={{width: '20px', height: '20px', marginLeft: '20px'}}/>
+                                </NavLink>
+                            </Navbar.Brand>
                         </Container>
                     </Navbar>
                 </Col>
