@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/polls")
+@RequestMapping("/polls")
 public class PollController {
 
     private final PollService pollService;

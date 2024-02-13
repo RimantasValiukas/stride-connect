@@ -1,7 +1,9 @@
 import HTTP from "./index";
 
-const login = (data) => HTTP.post('/api/login', data);
+const login = (data) => HTTP.post('/login', data);
+const registration = (user) => HTTP.post('/registration', user);
 
 export {
-    login
+    login,
+    registration
 }

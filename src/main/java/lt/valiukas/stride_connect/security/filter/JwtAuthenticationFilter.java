@@ -1,10 +1,11 @@
-package lt.valiukas.stride_connect.security;
+package lt.valiukas.stride_connect.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lt.valiukas.stride_connect.security.Login;
 import lt.valiukas.stride_connect.security.service.JwtService;
 import lt.valiukas.stride_connect.user.dto.User;
 import org.springframework.security.authentication.AuthenticationManager;

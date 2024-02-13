@@ -37,8 +37,8 @@ public class JwtService {
         Date date = new Date();
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
-                .setAudience("eshop-ui")
-                .setIssuer("eshop-api")
+                .setAudience("stride-connect-ui")
+                .setIssuer("stride-connect")
                 .setIssuedAt(date)
                 .setExpiration(new Date(date.getTime() + tokenValidMs))
                 .setSubject(user.getUsername())
