@@ -26,7 +26,7 @@ public class SecurityConfig {
 
         security.sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-        security.authorizeHttpRequests(c -> c.requestMatchers(HttpMethod.GET, "/api/polls", "/api/polls/**").permitAll().anyRequest().authenticated());
+        security.authorizeHttpRequests(c -> c.requestMatchers(HttpMethod.GET, "/api/polls", "/api/polls/**").permitAll().requestMatchers(HttpMethod.POST, "/api/login").permitAll().anyRequest().authenticated());
 
         security.exceptionHandling(c -> c.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)));
 

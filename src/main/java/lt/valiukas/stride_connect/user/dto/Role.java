@@ -21,4 +21,8 @@ public class Role implements GrantedAuthority {
     public static Role convert(RoleEntity entity) {
         return new Role(entity.getId(), entity.getName());
     }
+
+    public String getName() {
+        return name;
+    }
 }
