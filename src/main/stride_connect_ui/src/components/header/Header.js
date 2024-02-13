@@ -1,7 +1,7 @@
-import {Button, Col, Container, Nav, Navbar, NavLink, Row} from "react-bootstrap";
+import {Button, Col, Container, Nav, Navbar, NavbarBrand, NavLink, Row} from "react-bootstrap";
 import React from "react";
 import logo from './logo.png';
-import {FaSignInAlt} from "react-icons/fa";
+import {FaRegUser, FaSignInAlt} from "react-icons/fa";
 
 const Header = (props) => {
     const {sections} = props;
@@ -41,6 +41,11 @@ const Header = (props) => {
                                     <FaSignInAlt style={{width: '20px', height: '20px', marginLeft: '20px'}}/>
                                 </NavLink>
                             </Navbar.Brand>
+                            <NavbarBrand>
+                                <NavLink href='/registration'>
+                                    <FaRegUser style={{width: '20px', height: '20px'}}/>
+                                </NavLink>
+                            </NavbarBrand>
                         </Container>
                     </Navbar>
                 </Col>
