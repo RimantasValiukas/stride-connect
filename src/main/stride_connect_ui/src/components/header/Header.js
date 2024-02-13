@@ -2,9 +2,17 @@ import {Button, Col, Container, Nav, Navbar, NavbarBrand, NavLink, Row} from "re
 import React from "react";
 import logo from './logo.png';
 import {FaRegUser, FaSignInAlt} from "react-icons/fa";
+import {TbUsersPlus} from "react-icons/tb";
+import {useSelector} from "react-redux";
 
 const Header = (props) => {
-    const {sections} = props;
+    const sections = [
+        {title: 'Pradžia', url: '/'},
+        {title: 'Straipsniai', url: '/'},
+        {title: 'Varžybos', url: '/'},
+        {title: 'Apklausos', url: '/polls'}
+    ];
+    const user = useSelector(state => state.user.user);
 
     return (
         <Container className="d-flex flex-column align-items-center justify-content-center">
@@ -36,14 +44,14 @@ const Header = (props) => {
                                     ))}
                                 </Nav>
                             </Navbar.Collapse>
-                            <Navbar.Brand className="ml-auto">
+                            <Navbar.Brand>
                                 <NavLink href='/login' >
                                     <FaSignInAlt style={{width: '20px', height: '20px', marginLeft: '20px'}}/>
                                 </NavLink>
                             </Navbar.Brand>
                             <NavbarBrand>
                                 <NavLink href='/registration'>
-                                    <FaRegUser style={{width: '20px', height: '20px'}}/>
+                                    <TbUsersPlus style={{width: '20px', height: '20px'}}/>
                                 </NavLink>
                             </NavbarBrand>
                         </Container>

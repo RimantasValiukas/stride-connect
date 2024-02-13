@@ -4,8 +4,13 @@ import FormField from "./FormField";
 import * as Yup from 'yup';
 import {useState} from "react";
 import {login} from "../../api/userApi";
+import {useDispatch} from "react-redux";
+import {useNavigate} from "react-router-dom";
+import {addUser} from "../../store/slices/userSlice";
 
 const Login = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const loginValidationSchema = Yup.object().shape(
         {
@@ -15,9 +20,14 @@ const Login = () => {
     );
     const [showError, setShowError] = useState(false);
     const onLogin = (values, helpers) => {
-        console.log(values);
         login(values)
-            .then(({data}) => console.log(data))
+            .then(({data, headers}) => {
+                dispatch(addUser({
+                    user: data,
+                    jwtToken: headers.authorization
+                }));
+                navigate('/')
+            })
             .catch((error) => {
                 console.log(error);
                 setShowError(true);
