@@ -7,6 +7,7 @@ import {useNavigate} from "react-router-dom";
 import * as Yup from 'yup';
 import Feedback from "react-bootstrap/Feedback";
 import FormField from "./FormField";
+import {useSelector} from "react-redux";
 
 const Poll = () => {
 
@@ -19,6 +20,7 @@ const Poll = () => {
         }
     );
     const navigation = useNavigate();
+    const user = useSelector(state => state.user.user);
 
     const pollValidationScheme = Yup.object().shape(
         {
@@ -48,6 +50,7 @@ const Poll = () => {
         const timestamp = values.expirationDate.valueOf();
         const updatedPoll = {
             ...values,
+            creatorId: user.id,
             date: date,
             votedUsers: [],
             expirationDate: timestamp,

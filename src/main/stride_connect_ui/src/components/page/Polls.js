@@ -11,6 +11,14 @@ const Polls = () => {
     const [loading, setLoading] = useState(true);
     const user = useSelector(state => state.user.user);
 
+    const isUserCreator = (creatorId) => {
+        if (creatorId == user.id) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     useEffect(() => {
         getPolls()
             .then(({data}) => {
@@ -50,7 +58,7 @@ const Polls = () => {
                                     {poll.description}
                                 </Card.Text>
                                 <Button href={`/polls/${poll.pollId}`} size="sm" style={{backgroundColor: '#9dab9d', borderColor: '#9dab9d'}}>Balsuoti</Button>
-                                {user && user.roles.includes('ADMIN') && <DeleteButton deleteFunction={() => deletePollById(poll.pollId)} />}
+                                {user && (user.roles.includes('ADMIN') || isUserCreator(poll.creatorId)) && <DeleteButton deleteFunction={() => deletePollById(poll.pollId)} />}
                             </Card.Body>
                         </Card>
                     </Col>
