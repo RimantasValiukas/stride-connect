@@ -3,11 +3,13 @@ import {useEffect, useState} from "react";
 import {deletePoll, getPolls} from "../../api/pollApi";
 import LoadingCard from "../LoadingCard";
 import DeleteButton from "../DeleteButton";
+import {useSelector} from "react-redux";
 
 const Polls = () => {
 
     const [polls, setPolls] = useState([]);
     const [loading, setLoading] = useState(true);
+    const user = useSelector(state => state.user.user);
 
     useEffect(() => {
         getPolls()
@@ -27,11 +29,11 @@ const Polls = () => {
     return(
         loading ? <LoadingCard/> :
         <div className="mb-2">
-            <Row className="justify-content-center align-items-center">
+            {user && <Row className="justify-content-center align-items-center">
                 <Button href='/poll' size="lg" style={{backgroundColor: '#43535f', borderColor: '#43535f', marginBottom: '20px', maxWidth: '190px'}}>
                     Sukurti balsavimą
                 </Button>
-            </Row>
+            </Row>}
 
             <FormText style={{fontSize: '25px', marginBottom: '60px'}}>Aktyvūs balsavimai, atiduok savo balsą</FormText>
 
