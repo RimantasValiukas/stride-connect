@@ -1,9 +1,10 @@
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {addVote, getPollById} from "../../api/pollApi";
-import {Card, Form, Button, Col, Row} from "react-bootstrap";
+import {Card, Form, Button, Col, Row, Alert} from "react-bootstrap";
 import Donut from "../Donut";
 import LoadingCard from "../LoadingCard";
+import {useSelector} from "react-redux";
 
 
 const PollDetails = () => {
@@ -13,6 +14,8 @@ const PollDetails = () => {
     const {pollId} = useParams();
     const [loading, setLoading] = useState(true);
     const [selectedOption, setSelectedOption] = useState("");
+    const [showMessage, setShowMessage] = useState(false);
+    const user = useSelector(state => state.user.user);
 
     useEffect(() => {
         getPollById(pollId)
@@ -48,7 +51,7 @@ const PollDetails = () => {
     return (
         loading ? <LoadingCard/> :
         <div className="mb-2">
-            <Row xs={1} md={1} className="justify-content-center align-items-center">
+            <Row className="justify-content-center align-items-center">
                 <Col>
                     <Card>
                         <Card.Header className="ml-2 d-flex justify-content-start text-left"
@@ -61,7 +64,7 @@ const PollDetails = () => {
                             <Card.Text className="mx-auto" style={{maxWidth: '700px', textAlign: 'justify'}}>
                                 {pollData.description}
                             </Card.Text>
-                            <Form onSubmit={handleSubmit}>
+                            {user ? <Form onSubmit={handleSubmit}>
                                 {pollData.options.map((option, index) => (
                                     <Form.Group controlId={`radio-${index}`} key={index} className="mb-1" style={{
                                         display: 'flex',
@@ -80,7 +83,10 @@ const PollDetails = () => {
                                     borderColor: '#9dab9d',
                                     marginTop: '20px'
                                 }}>Balsuoti</Button>
-                            </Form>
+                            </Form> :
+                                <Alert className="mx-auto" variant='info' style={{maxWidth: '400px'}}>
+                                    Balsuoti gali tik prisijungę vartotojai
+                                </Alert>}
                         </Card.Body>
                     </Card>
                 </Col>
