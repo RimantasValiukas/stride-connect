@@ -92,7 +92,7 @@ const Registration = () => {
                                 <FormField name="repeatPassword"
                                            placeholder="Įveskite slaptažodį"
                                            type="password"
-                                           label="Slaptažodis"
+                                           label="Pakartokite slaptažodį"
                                            error={props.errors.repeatPassword}
                                            touched={props.touched.repeatPassword}
                                            value={props.values.repeatPassword}
