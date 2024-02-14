@@ -121,7 +121,7 @@ const Poll = () => {
                                                         style={{backgroundColor: ' #fcfbf9', maxWidth: '500px'}}
                                                         isValid={props.touched.variants && !props.errors.variants}
                                                         isInvalid={props.touched.variants && !!props.errors.variants}
-                                                        value={props.values.variants}
+                                                        value={props.values.variant}
                                                         onChange={props.handleChange}
                                                         onBlur={props.handleBlur}
                                                     />
