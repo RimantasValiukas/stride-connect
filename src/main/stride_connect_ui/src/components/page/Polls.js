@@ -50,7 +50,7 @@ const Polls = () => {
                                     {poll.description}
                                 </Card.Text>
                                 <Button href={`/polls/${poll.pollId}`} size="sm" style={{backgroundColor: '#9dab9d', borderColor: '#9dab9d'}}>Balsuoti</Button>
-                                <DeleteButton deleteFunction={() => deletePollById(poll.pollId)} />
+                                {user && user.roles.includes('ADMIN') && <DeleteButton deleteFunction={() => deletePollById(poll.pollId)} />}
                             </Card.Body>
                         </Card>
                     </Col>
