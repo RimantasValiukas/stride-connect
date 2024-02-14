@@ -5,13 +5,16 @@ import Polls from "../page/Polls";
 import PollDetails from "../page/PollDetails";
 import Login from "../forms/Login";
 import Registration from "../forms/Registration";
+import SecuredRoute from "../security/SecuredRoute";
 
 const Content = () => {
 
     return(
         <Container className="d-flex flex-column align-items-center justify-content-center text-center mx-auto">
             <Routes>
-                <Route path={'/poll'} element={<Poll/>}/>
+                <Route path={'/poll'} element={<SecuredRoute roles={['USER']}/>}>
+                    <Route path={'/poll'} element={<Poll/>}/>
+                </Route>
                 <Route path={'/polls'} element={<Polls/>}/>
                 <Route path={'/polls/:pollId'} element={<PollDetails/>}/>
                 <Route path={'/login'} element={<Login/>}/>
