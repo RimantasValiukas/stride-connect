@@ -47,7 +47,8 @@ const PollDetails = () => {
             })
             .catch((error) => {
                 setMessage({
-                    show: true, error: true,
+                    show: true,
+                    error: true,
                     variant: 'danger',
                     message: 'Klaida užkraunant duomenis'
                 })
