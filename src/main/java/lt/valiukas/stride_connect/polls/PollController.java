@@ -45,8 +45,7 @@ public class PollController {
     @PutMapping(value = "/update/{pollId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void addVote(@RequestBody Vote option, @PathVariable UUID pollId) {
-        String vote = option.getOption();
-        pollService.addVote(vote, pollId);
+        pollService.addVote(option.getOption(), pollId, option.getUserId());
     }
 
     @PreAuthorize("hasRole('ADMIN')")

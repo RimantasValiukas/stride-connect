@@ -54,8 +54,9 @@ public class PollService {
         return poll;
     }
 
-    public void addVote(String option, UUID pollId) {
+    public void addVote(String option, UUID pollId, UUID userId) {
         Poll poll = getPollById(pollId);
+        poll.getVotedUsers().add(userId);
 
         for (String key : poll.getVariants().keySet()) {
             if (key.equals(option)) {
