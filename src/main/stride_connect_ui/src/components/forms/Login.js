@@ -2,15 +2,18 @@ import {Form, Formik} from "formik";
 import {Alert, Button, Container, FormText, Stack} from "react-bootstrap";
 import FormField from "./FormField";
 import * as Yup from 'yup';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {login} from "../../api/userApi";
 import {useDispatch} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {addUser} from "../../store/slices/userSlice";
 
 const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
+    const successMessage = location.state;
+    const [message, setMessage] = useState({show: false});
 
     const loginValidationSchema = Yup.object().shape(
         {
@@ -18,7 +21,13 @@ const Login = () => {
             password: Yup.string().required("Slaptažodis privalomas")
         }
     );
-    const [showError, setShowError] = useState(false);
+
+    useEffect(() => {
+        if (successMessage) {
+            setMessage({show: true, variant: 'success', message: 'Registracija sėkminga, dabar galite prisijungti'})
+        }
+    }, []);
+
     const onLogin = (values, helpers) => {
         login(values)
             .then(({data, headers}) => {
@@ -30,7 +39,7 @@ const Login = () => {
             })
             .catch((error) => {
                 console.log(error);
-                setShowError(true);
+                setMessage({show: true, variant: 'warning', message: 'Blogi prisijungimo duomenys, bandykite dar kartą'})
             })
             .finally(() => helpers.setSubmitting(false));
     }
@@ -64,9 +73,9 @@ const Login = () => {
                                         style={{backgroundColor: '#435f49', borderColor: '#435f49', marginTop: '20px'}}>
                                     Prisijungti
                                 </Button>
-                                {showError && <Container  className="d-flex flex-column align-items-center justify-content-center" >
-                                    <Alert variant='warning' style={{marginTop: "20px"}}>
-                                        Blogi prisijungimo duomenys, bandykite dar kartą
+                                {message.show && <Container  className="d-flex flex-column align-items-center justify-content-center" >
+                                    <Alert variant={message.variant} style={{marginTop: "20px"}}>
+                                        {message.message}
                                     </Alert>
                                 </Container>}
 

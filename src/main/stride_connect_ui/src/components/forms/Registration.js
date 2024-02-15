@@ -4,6 +4,7 @@ import FormField from "./FormField";
 import {useState} from "react";
 import * as Yup from 'yup';
 import {registration} from "../../api/userApi";
+import {useNavigate} from "react-router-dom";
 
 const Registration = () => {
 
@@ -14,7 +15,8 @@ const Registration = () => {
         password: '',
         repeatPassword: ''
     });
-    const [showError, setShowError] = useState(false);
+    const [message, setMessage] = useState({show: false});
+    const navigation = useNavigate();
 
     const userValidationSchema = Yup.object().shape(
         {
@@ -42,16 +44,19 @@ const Registration = () => {
         }
 
         registration(userCopy)
-            .then(() => helper.resetForm())
+            .then(() => {
+                const successMessage = true;
+                navigation('/login', {state: successMessage});
+            })
             .catch((error) => {
                 console.log(error);
-                setShowError(true);
+                setMessage({show: true, variant: 'warning', message: 'Problemos su serveriu, bandykite dar kartą'})
             })
             .finally(() => helper.setSubmitting(false))
     }
 
     return(
-        <Formik initialValues={{username: '', password: ''}}
+        <Formik initialValues={user}
                 onSubmit={onSubmit}
                 validationSchema={userValidationSchema}>
             {
@@ -65,21 +70,18 @@ const Registration = () => {
                                            label="Vardas"
                                            error={props.errors.name}
                                            touched={props.touched.name}
-                                           value={props.values.name}
                                 />
                                 <FormField name="surname"
                                            placeholder="Įveskite savo pavardę"
                                            label="Pavardė"
                                            error={props.errors.surname}
                                            touched={props.touched.surname}
-                                           value={props.values.surname}
                                 />
                                 <FormField name="email"
                                            placeholder="Įveskite elektroninį paštą"
                                            label="Elektroninis paštas"
                                            error={props.errors.email}
                                            touched={props.touched.email}
-                                           value={props.values.email}
                                 />
                                 <FormField name="password"
                                            placeholder="Įveskite slaptažodį"
@@ -87,7 +89,6 @@ const Registration = () => {
                                            label="Slaptažodis"
                                            error={props.errors.password}
                                            touched={props.touched.password}
-                                           value={props.values.password}
                                 />
                                 <FormField name="repeatPassword"
                                            placeholder="Įveskite slaptažodį"
@@ -95,15 +96,15 @@ const Registration = () => {
                                            label="Pakartokite slaptažodį"
                                            error={props.errors.repeatPassword}
                                            touched={props.touched.repeatPassword}
-                                           value={props.values.repeatPassword}
                                 />
                                 <Button type="submit"
                                         style={{backgroundColor: '#435f49', borderColor: '#435f49', marginTop: '20px'}}>
                                     Registruotis
                                 </Button>
-                                {showError && <Container  className="d-flex flex-column align-items-center justify-content-center" >
-                                    <Alert variant='warning' style={{marginTop: "20px"}}>
-                                        Kažkas negerai, bandykite dar kartą
+                                {message.show && <Container  className="d-flex flex-column align-items-center justify-content-center" >
+                                    <Alert className="mx-auto" show={message.show} variant={message.variant}
+                                           style={{maxWidth: '400px', marginTop: '20px'}}>
+                                        {message.message}
                                     </Alert>
                                 </Container>}
 
