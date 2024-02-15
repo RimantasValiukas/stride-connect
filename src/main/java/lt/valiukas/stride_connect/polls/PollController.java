@@ -48,7 +48,7 @@ public class PollController {
         pollService.addVote(option.getOption(), pollId, option.getUserId());
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/delete/{pollId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePollById(@PathVariable UUID pollId) {
