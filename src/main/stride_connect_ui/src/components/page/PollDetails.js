@@ -14,12 +14,17 @@ const PollDetails = () => {
     const {pollId} = useParams();
     const [loading, setLoading] = useState(true);
     const [selectedOption, setSelectedOption] = useState("");
-    const [message, setMessage] = useState({show: false});
+    const [message, setMessage] = useState({show: false, error: false});
     const user = useSelector(state => state.user.user);
 
     useEffect(() => {
         if (!user) {
-            setMessage({show: true, variant: 'info', message: 'Balsuoti gali tik prisijungę vartotojai'})
+            setMessage({
+                show: true,
+                error: false,
+                variant: 'info',
+                message: 'Balsuoti gali tik prisijungę vartotojai'
+            })
         }
 
         getPollById(pollId)
@@ -34,12 +39,20 @@ const PollDetails = () => {
                 if (user && poll.votedUsers.includes(user.id)) {
                     setMessage({
                         show: true,
+                        error: false,
                         variant: 'info',
                         message: 'Jūs jau balsavote, balsuoti galima tik vieną kartą'
                     })
                 }
             })
-            .catch((error) => console.log(error))
+            .catch((error) => {
+                setMessage({
+                    show: true, error: true,
+                    variant: 'danger',
+                    message: 'Klaida užkraunant duomenis'
+                })
+                console.log(error)
+            })
             .finally(() => setLoading(false))
     }, []);
 
@@ -69,45 +82,50 @@ const PollDetails = () => {
             <div className="mb-2">
                 <Row className="justify-content-center align-items-center">
                     <Col>
-                        <Card>
-                            <Card.Header className="ml-2 d-flex justify-content-start text-left"
-                                         style={{backgroundColor: '#dcbc7c'}}><i>Balsavimas
-                                sukurtas:</i>&nbsp; {new Date(pollData.date).toLocaleString()}, &nbsp; <i>Galioja
-                                iki:</i>&nbsp; {new Date(pollData.expirationDate).toLocaleString()} &nbsp;
-                                <i>Autorius:</i>&nbsp; Vardenis Pavardenis</Card.Header>
-                            <Card.Body style={{backgroundColor: '#f3f3eb'}}>
-                                <Card.Title>Balsavimo pavadinimas: {pollData.name}</Card.Title>
-                                <Card.Text className="mx-auto" style={{maxWidth: '700px', textAlign: 'justify'}}>
-                                    {pollData.description}
-                                </Card.Text>
-                                {message.show ? <Alert className="mx-auto" show={message.show} variant={message.variant}
-                                                       style={{maxWidth: '400px'}}>
-                                        {message.message}
-                                    </Alert> :
-                                    <Form onSubmit={handleSubmit}>
-                                        {pollData.options.map((option, index) => (
-                                            <Form.Group controlId={`radio-${index}`} key={index} className="mb-1"
-                                                        style={{
-                                                            display: 'flex',
-                                                            marginLeft: '45%'
-                                                        }}>
-                                                <Form.Check
-                                                    type="radio"
-                                                    label={option.text}
-                                                    checked={selectedOption === option.text}
-                                                    onChange={() => setSelectedOption(option.text)}
-                                                />
-                                            </Form.Group>
-                                        ))}
-                                        <Button type="submit" size="sm" style={{
-                                            backgroundColor: '#9dab9d',
-                                            borderColor: '#9dab9d',
-                                            marginTop: '20px'
-                                        }}>Balsuoti</Button>
-                                    </Form>
-                                }
-                            </Card.Body>
-                        </Card>
+                        {message.error ? <Alert className="mx-auto" show={message.show} variant={message.variant}
+                                                style={{maxWidth: '400px'}}>
+                                {message.message}
+                            </Alert> :
+                            <Card>
+                                <Card.Header className="ml-2 d-flex justify-content-start text-left"
+                                             style={{backgroundColor: '#dcbc7c'}}><i>Balsavimas
+                                    sukurtas:</i>&nbsp; {new Date(pollData.date).toLocaleString()}, &nbsp; <i>Galioja
+                                    iki:</i>&nbsp; {new Date(pollData.expirationDate).toLocaleString()} &nbsp;
+                                    <i>Autorius:</i>&nbsp; Vardenis Pavardenis</Card.Header>
+                                <Card.Body style={{backgroundColor: '#f3f3eb'}}>
+                                    <Card.Title>Balsavimo pavadinimas: {pollData.name}</Card.Title>
+                                    <Card.Text className="mx-auto" style={{maxWidth: '700px', textAlign: 'justify'}}>
+                                        {pollData.description}
+                                    </Card.Text>
+                                    {message.show ?
+                                        <Alert className="mx-auto" show={message.show} variant={message.variant}
+                                               style={{maxWidth: '400px'}}>
+                                            {message.message}
+                                        </Alert> :
+                                        <Form onSubmit={handleSubmit}>
+                                            {pollData.options.map((option, index) => (
+                                                <Form.Group controlId={`radio-${index}`} key={index} className="mb-1"
+                                                            style={{
+                                                                display: 'flex',
+                                                                marginLeft: '45%'
+                                                            }}>
+                                                    <Form.Check
+                                                        type="radio"
+                                                        label={option.text}
+                                                        checked={selectedOption === option.text}
+                                                        onChange={() => setSelectedOption(option.text)}
+                                                    />
+                                                </Form.Group>
+                                            ))}
+                                            <Button type="submit" size="sm" style={{
+                                                backgroundColor: '#9dab9d',
+                                                borderColor: '#9dab9d',
+                                                marginTop: '20px'
+                                            }}>Balsuoti</Button>
+                                        </Form>
+                                    }
+                                </Card.Body>
+                            </Card>}
                     </Col>
                 </Row>
                 <Donut pollOptions={pollData.options}/>
