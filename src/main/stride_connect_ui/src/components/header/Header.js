@@ -10,7 +10,7 @@ import {removeUser} from "../../store/slices/userSlice";
 const Header = (props) => {
     const sections = [
         {title: 'Pradžia', url: '/'},
-        {title: 'Straipsniai', url: '/'},
+        {title: 'Straipsniai', url: '/articles'},
         {title: 'Varžybos', url: '/'},
         {title: 'Apklausos', url: '/polls'}
     ];

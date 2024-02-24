@@ -6,6 +6,8 @@ import PollDetails from "../page/PollDetails";
 import Login from "../forms/Login";
 import Registration from "../forms/Registration";
 import SecuredRoute from "../security/SecuredRoute";
+import Articles from "../page/Articles";
+import Article from "../forms/Article";
 
 const Content = () => {
 
@@ -19,6 +21,10 @@ const Content = () => {
                 <Route path={'/polls/:pollId'} element={<PollDetails/>}/>
                 <Route path={'/login'} element={<Login/>}/>
                 <Route path={'/registration'} element={<Registration/>}/>
+                <Route path={'/articles'} element={<Articles/>}/>
+                <Route path={'/article'} element={<SecuredRoute roles={['USER']}/>}>
+                    <Route path={'/article'} element={<Article/>}/>
+                </Route>
 
             </Routes>
         </Container>
