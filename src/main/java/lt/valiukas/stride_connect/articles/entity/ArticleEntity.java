@@ -22,8 +22,12 @@ public class ArticleEntity {
     private UUID articleId;
     @Column
     private UUID userId;
-    @Column(length = 5000)
+    @Column
+    private String userFullName;
+    @Column
     private String title;
+    @Column(length = 5000)
+    private String text;
     @Column
     private String photoUrl;
     @Column
@@ -33,7 +37,9 @@ public class ArticleEntity {
         return new ArticleEntity(
                 article.getArticleId(),
                 article.getUserId(),
+                article.getUserFullName(),
                 article.getTitle(),
+                article.getText(),
                 article.getPhotoUrl(),
                 article.getDate()
         );

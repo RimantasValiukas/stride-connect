@@ -16,7 +16,9 @@ import java.util.UUID;
 public class Article {
     private UUID articleId;
     private UUID userId;
+    private String userFullName;
     private String title;
+    private String text;
     private String photoUrl;
     private Timestamp date;
 
@@ -24,7 +26,9 @@ public class Article {
         return new Article(
                 entity.getArticleId(),
                 entity.getUserId(),
+                entity.getUserFullName(),
                 entity.getTitle(),
+                entity.getText(),
                 entity.getPhotoUrl(),
                 entity.getDate()
         );
