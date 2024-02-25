@@ -42,6 +42,7 @@ const Article = () => {
         const updatedArticle = {
             ...values,
             userId: user.id,
+            userFullName: user.fullName,
             date: Date.now()
         }
 

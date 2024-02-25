@@ -66,7 +66,7 @@ const Polls = () => {
                     <Row xs={1} md={1} className="g-4 mt-2" style={{maxWidth: '1000px'}}>
                         {Array.from(polls).map((poll, idx) => (
                             <Col key={idx}>
-                                <Card>
+                                <Card style={{borderRadius: '10px'}}>
                                     <Card.Header className="ml-2 d-flex justify-content-start text-left"
                                                  style={{backgroundColor: '#dcbc7c'}}>
                                         <i>Balsavimas sukurtas:</i>&nbsp; {new Date(poll.date).toLocaleString()}, &nbsp;
