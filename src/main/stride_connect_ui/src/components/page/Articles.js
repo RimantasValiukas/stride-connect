@@ -14,6 +14,11 @@ const Articles = () => {
     useEffect(() => {
         getAllArticles()
             .then(({data}) => {
+                data.sort((a, b) => {
+                    const dateA = parseISO(a.date);
+                    const dateB = parseISO(b.date);
+                    return dateB - dateA;
+                });
                 setArticles(data);
                 console.log(data)
             })
