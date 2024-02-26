@@ -8,6 +8,7 @@ import Registration from "../forms/Registration";
 import SecuredRoute from "../security/SecuredRoute";
 import Articles from "../page/Articles";
 import Article from "../forms/Article";
+import ArticleDetails from "../page/ArticleDetails";
 
 const Content = () => {
 
@@ -25,6 +26,7 @@ const Content = () => {
                 <Route path={'/article'} element={<SecuredRoute roles={['USER']}/>}>
                     <Route path={'/article'} element={<Article/>}/>
                 </Route>
+                <Route path={'/articles/:articleId'} element={<ArticleDetails/>}/>
 
             </Routes>
         </Container>
