@@ -39,7 +39,7 @@ public class ArticleController {
 
     @PreAuthorize("hasRole('USER')")
     @DeleteMapping(value = "/delete/{articleId}")
-    @ResponseStatus(HttpStatus.GONE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteArticle(@PathVariable UUID articleId) {
         articleService.deleteArticle(articleId);
     }
