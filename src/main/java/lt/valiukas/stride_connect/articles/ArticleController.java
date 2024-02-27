@@ -45,7 +45,7 @@ public class ArticleController {
     }
 
     @PreAuthorize("hasRole('USER')")
-    @PutMapping(value = "/update/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateArticle(@RequestBody Article article) {
         articleService.saveArticle(article);
