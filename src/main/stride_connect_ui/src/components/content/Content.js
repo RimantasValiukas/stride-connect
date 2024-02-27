@@ -27,6 +27,7 @@ const Content = () => {
                     <Route path={'/article'} element={<Article/>}/>
                 </Route>
                 <Route path={'/articles/:articleId'} element={<ArticleDetails/>}/>
+                <Route path={'/article/:articleId'} element={<Article/>}/>
 
             </Routes>
         </Container>

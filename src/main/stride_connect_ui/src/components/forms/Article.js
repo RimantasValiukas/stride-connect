@@ -1,11 +1,12 @@
 import {Button, Container, FormControl, Stack} from "react-bootstrap";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import * as Yup from "yup";
 import {Form, Formik} from "formik";
 import FormField from "./FormField";
 import {useSelector} from "react-redux";
-import {createArticle} from "../../api/articleApi";
-import {useNavigate} from "react-router-dom";
+import {createArticle, getArticleById, updateArticle} from "../../api/articleApi";
+import {useNavigate, useParams} from "react-router-dom";
+import LoadingCard from "../LoadingCard";
 
 const Article = () => {
     const user = useSelector(state => state.user.user);
@@ -15,6 +16,23 @@ const Article = () => {
         text: '',
         photoUrl: ''
     });
+    const {articleId} = useParams();
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (!articleId) {
+            setLoading(false);
+            return;
+        }
+
+        getArticleById(articleId)
+            .then(({data}) => {
+                setArticle(data);
+            })
+            .catch((error) => console.log(error))
+            .finally(() => setLoading(false))
+
+    }, [])
 
     const articleValidationScheme = Yup.object().shape(
         {
@@ -52,9 +70,17 @@ const Article = () => {
             .finally(() => helper.setSubmitting(false))
     }
 
+    const onUpdateArticle = (values, helper) => {
+        updateArticle(values)
+            .then(() => navigation("/articles"))
+            .catch((error) => console.log(error))
+            .finally(() => helper.setSubmitting(false))
+    }
+
     return (
+        loading ? <LoadingCard/> :
         <Formik initialValues={article}
-                onSubmit={onCreateArticle}
+                onSubmit={articleId ? onUpdateArticle : onCreateArticle}
                 validationSchema={articleValidationScheme}>
             {
                 props => (
@@ -85,7 +111,7 @@ const Article = () => {
                                     onChange={props.handleChange}/>
                                 <Button type="submit"
                                         style={{backgroundColor: '#435f49', borderColor: '#435f49', marginTop: '20px'}}>
-                                    Sukurti Straipsnį
+                                    {articleId ? "Pakeisti Straipsnį" : "Sukurti Straipsnį"}
                                 </Button>
                             </Form>
                         </Stack>

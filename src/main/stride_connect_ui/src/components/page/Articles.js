@@ -20,7 +20,6 @@ const Articles = () => {
                     return dateB - dateA;
                 });
                 setArticles(data);
-                console.log(data)
             })
             .catch((error) => {
                 console.log(error);

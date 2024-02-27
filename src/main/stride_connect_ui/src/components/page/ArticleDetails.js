@@ -84,7 +84,7 @@ const ArticleDetails = () => {
                             {user && (user.roles.includes('ADMIN') || isUserCreator(article.userId)) &&
                                 <>
                                     <DeleteButton deleteFunction={() => onDelete()}/>
-                                    <Button size="sm" variant="secondary" style={{marginLeft: '10px'}}>
+                                    <Button size="sm" variant="secondary" href={`/article/${articleId}`} style={{marginLeft: '10px'}}>
                                         KEISTI
                                     </Button>
                                 </>
