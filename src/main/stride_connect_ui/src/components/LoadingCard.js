@@ -6,7 +6,7 @@ const LoadingCard = () => {
         <Container>
             <Row xs={1} md={1} className="g-4 mt-2">
                 <Col>
-                    <Card style={{ width: 'auto' }}>
+                    <Card style={{ width: 'auto', backgroundColor: '#f3f3eb' }}>
                         <Card.Body>
                             <Placeholder as={Card.Title} animation="glow">
                                 <Placeholder xs={6} />
