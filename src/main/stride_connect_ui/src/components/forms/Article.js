@@ -72,7 +72,7 @@ const Article = () => {
 
     const onUpdateArticle = (values, helper) => {
         updateArticle(values)
-            .then(() => navigation("/articles"))
+            .then(() => navigation(`/articles/${articleId}`, {state: true}))
             .catch((error) => console.log(error))
             .finally(() => helper.setSubmitting(false))
     }
