@@ -1,4 +1,4 @@
-import {Button, Container, FormControl, Stack} from "react-bootstrap";
+import {Alert, Button, Container, FormControl, Stack} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import * as Yup from "yup";
 import {Form, Formik} from "formik";
@@ -18,6 +18,7 @@ const Article = () => {
     });
     const {articleId} = useParams();
     const [loading, setLoading] = useState(true);
+    const [message, setMessage] = useState({show: false, error: false});
 
     useEffect(() => {
         if (!articleId) {
@@ -29,7 +30,15 @@ const Article = () => {
             .then(({data}) => {
                 setArticle(data);
             })
-            .catch((error) => console.log(error))
+            .catch((error) => {
+                console.log(error);
+                setMessage({
+                    show: true,
+                    error: true,
+                    variant: 'danger',
+                    message: 'Klaida užkraunant duomenis'
+                })
+            })
             .finally(() => setLoading(false))
 
     }, [])
@@ -79,46 +88,56 @@ const Article = () => {
 
     return (
         loading ? <LoadingCard/> :
-        <Formik initialValues={article}
-                onSubmit={articleId ? onUpdateArticle : onCreateArticle}
-                validationSchema={articleValidationScheme}>
-            {
-                props => (
-                    <Container>
-                        <Stack spacing={2} direction="column">
-                            <Form>
-                                <FormField
-                                    name="title"
-                                    label="Straipsnio pavadinimas"
-                                    placeholder="Įveskite straipsnio pavadinimą"
-                                    error={props.errors.title}
-                                    touched={props.touched.title}
-                                    value={props.values.title}
-                                    onChange={props.handleChange}/>
-                                <FormField name="text"
-                                           label="Straipsnio tekstas"
-                                           error={props.errors.text}
-                                           touched={props.touched.text}
-                                           value={props.values.text}
-                                           component={CustomTextarea}/>
-                                <FormField
-                                    name="photoUrl"
-                                    label="Nuotraukos nuoroda"
-                                    placeholder="Įveskite nuotraukos nuorodą"
-                                    error={props.errors.photoUrl}
-                                    touched={props.touched.photoUrl}
-                                    value={props.values.photoUrl}
-                                    onChange={props.handleChange}/>
-                                <Button type="submit"
-                                        style={{backgroundColor: '#435f49', borderColor: '#435f49', marginTop: '20px'}}>
-                                    {articleId ? "Pakeisti Straipsnį" : "Sukurti Straipsnį"}
-                                </Button>
-                            </Form>
-                        </Stack>
-                    </Container>
-                )
-            }
-        </Formik>
+            <>
+                {message.error ? <Alert className="mx-auto" show={message.show} variant={message.variant}
+                                        style={{maxWidth: '400px'}}>
+                        {message.message}
+                    </Alert> :
+                    <Formik initialValues={article}
+                            onSubmit={articleId ? onUpdateArticle : onCreateArticle}
+                            validationSchema={articleValidationScheme}>
+                        {
+                            props => (
+                                <Container>
+                                    <Stack spacing={2} direction="column">
+                                        <Form>
+                                            <FormField
+                                                name="title"
+                                                label="Straipsnio pavadinimas"
+                                                placeholder="Įveskite straipsnio pavadinimą"
+                                                error={props.errors.title}
+                                                touched={props.touched.title}
+                                                value={props.values.title}
+                                                onChange={props.handleChange}/>
+                                            <FormField name="text"
+                                                       label="Straipsnio tekstas"
+                                                       error={props.errors.text}
+                                                       touched={props.touched.text}
+                                                       value={props.values.text}
+                                                       component={CustomTextarea}/>
+                                            <FormField
+                                                name="photoUrl"
+                                                label="Nuotraukos nuoroda"
+                                                placeholder="Įveskite nuotraukos nuorodą"
+                                                error={props.errors.photoUrl}
+                                                touched={props.touched.photoUrl}
+                                                value={props.values.photoUrl}
+                                                onChange={props.handleChange}/>
+                                            <Button type="submit"
+                                                    style={{
+                                                        backgroundColor: '#435f49',
+                                                        borderColor: '#435f49',
+                                                        marginTop: '20px'
+                                                    }}>
+                                                {articleId ? "Pakeisti Straipsnį" : "Sukurti Straipsnį"}
+                                            </Button>
+                                        </Form>
+                                    </Stack>
+                                </Container>
+                            )
+                        }
+                    </Formik>}
+            </>
     );
 }
 
