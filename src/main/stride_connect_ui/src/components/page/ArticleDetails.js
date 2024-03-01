@@ -7,6 +7,7 @@ import {format, parseISO} from "date-fns";
 import {useSelector} from "react-redux";
 import DeleteButton from "../DeleteButton";
 import Button from "react-bootstrap/Button";
+import Comment from "../forms/Comment";
 
 const ArticleDetails = () => {
     const {articleId} = useParams();
@@ -103,8 +104,10 @@ const ArticleDetails = () => {
                                 }
                             </Card.Body>
                         </Card>
+                        {user && <Comment/>}
                     </>
                 }
+
             </>
 
     );

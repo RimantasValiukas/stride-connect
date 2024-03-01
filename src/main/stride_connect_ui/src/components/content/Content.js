@@ -30,6 +30,9 @@ const Content = () => {
                 <Route path={'/article/:articleId'} element={<SecuredRoute roles={['USER']}/>}>
                     <Route path={'/article/:articleId'} element={<Article/>}/>
                 </Route>
+                <Route path={'/comment'} element={<SecuredRoute roles={['USER']}/>}>
+                    <Route path={'/comment'} element={<Article/>}/>
+                </Route>
             </Routes>
         </Container>
     );
