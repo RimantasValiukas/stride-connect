@@ -4,16 +4,17 @@ import {useState} from "react";
 import FormField from "./FormField";
 import * as Yup from "yup";
 import {useSelector} from "react-redux";
+import {createComment} from "../../api/articleApi";
 
-const Comment = () => {
+const Comment = ({articleId}) => {
     const [comment, setComment] = useState({
-        comment: ''
+        text: ''
     });
     const user = useSelector(state => state.user.user);
 
     const commentValidationScheme = Yup.object().shape(
         {
-            comment: Yup.string().required("Privalomas laukas").min(2, "Per trumpas komentaras").max(1000, "Per ilgas komentaras"),
+            text: Yup.string().required("Privalomas laukas").min(2, "Per trumpas komentaras").max(1000, "Per ilgas komentaras"),
         }
     );
     const CustomTextarea = ({field, form, ...props}) => (
@@ -31,8 +32,18 @@ const Comment = () => {
     };
 
     const onSubmit = (values, helper) => {
-        console.log(values);
-        helper.resetForm();
+        const updatedComment = {
+            ...values,
+            userId: user.id,
+            userFullName: user.fullName,
+            articleId: articleId,
+            date: Date.now()
+        }
+
+        createComment(updatedComment)
+            .then(() => helper.resetForm())
+            .catch((error) => console.log(error))
+            .finally(() => helper.setSubmitting(false))
     }
 
     return(
@@ -44,11 +55,11 @@ const Comment = () => {
                     <Container>
                         <Stack spacing={2} direction="column">
                             <Form>
-                                <FormField name="comment"
+                                <FormField name="text"
                                            label="Komentaras"
-                                           error={props.errors.comment}
-                                           touched={props.touched.comment}
-                                           value={props.values.comment}
+                                           error={props.errors.text}
+                                           touched={props.touched.text}
+                                           value={props.values.text}
                                            component={CustomTextarea}/>
                                 <Button type="submit"
                                         style={{

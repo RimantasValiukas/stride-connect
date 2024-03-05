@@ -104,7 +104,7 @@ const ArticleDetails = () => {
                                 }
                             </Card.Body>
                         </Card>
-                        {user && <Comment/>}
+                        {user && <Comment articleId={articleId}/>}
                     </>
                 }
 
