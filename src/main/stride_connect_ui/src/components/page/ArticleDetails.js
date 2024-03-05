@@ -8,6 +8,7 @@ import {useSelector} from "react-redux";
 import DeleteButton from "../DeleteButton";
 import Button from "react-bootstrap/Button";
 import Comment from "../forms/Comment";
+import Comments from "./Comments";
 
 const ArticleDetails = () => {
     const {articleId} = useParams();
@@ -104,7 +105,12 @@ const ArticleDetails = () => {
                                 }
                             </Card.Body>
                         </Card>
-                        {user && <Comment articleId={articleId}/>}
+                        <Card.Title style={{marginTop: '20px', marginBottom: '20px'}}>KOMENTARAI</Card.Title>
+                        {user ? <Comment articleId={articleId}/> : <Card.Subtitle className="mb-2 text-muted" style={{
+                            textAlign: 'start',
+                            fontSize: '14px'
+                        }}>Komentuoti gali tik prisijungę vartotojai</Card.Subtitle>}
+                        <Comments articleId={articleId}/>
                     </>
                 }
 

@@ -25,7 +25,7 @@ public class CommentController {
     }
 
     @PreAuthorize("hasRole('USER')")
-    @GetMapping(value = "/{commentId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{commentId}/update", produces = MediaType.APPLICATION_JSON_VALUE)
     public Comment getComment(@PathVariable UUID commentId) {
         return commentService.getCommentById(commentId);
     }
@@ -45,7 +45,7 @@ public class CommentController {
     }
 
     @PreAuthorize("hasRole('USER')")
-    @DeleteMapping(value = "/{commentId}")
+    @DeleteMapping(value = "/{commentId}/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteComment(@PathVariable UUID commentId) {
         commentService.deleteComment(commentId);

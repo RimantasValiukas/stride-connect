@@ -65,7 +65,8 @@ const Comment = ({articleId}) => {
                                         style={{
                                             backgroundColor: '#435f49',
                                             borderColor: '#435f49',
-                                            marginTop: '20px'
+                                            marginTop: '20px',
+                                            marginBottom: '20px'
                                         }}>
                                     Komentuoti
                                 </Button>

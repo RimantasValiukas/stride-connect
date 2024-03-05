@@ -6,6 +6,7 @@ const getAllArticles = () => HTTP.get('/articles');
 const deleteArticle = (articleId) => HTTP.delete(`/articles/delete/${articleId}`);
 const updateArticle = (article) => HTTP.put('/articles/update', article);
 const createComment = (comment) => HTTP.post('/comments', comment);
+const getComments = (articleId) => HTTP.get(`/comments/${articleId}`);
 
 export {
     createArticle,
@@ -13,5 +14,6 @@ export {
     getAllArticles,
     deleteArticle,
     updateArticle,
-    createComment
+    createComment,
+    getComments
 }
