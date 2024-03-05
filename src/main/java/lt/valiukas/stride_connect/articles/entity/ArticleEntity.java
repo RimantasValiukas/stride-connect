@@ -6,8 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lt.valiukas.stride_connect.articles.dto.Article;
+import lt.valiukas.stride_connect.comments.entity.CommentEntity;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.UUID;
 
 @Entity(name = "articles")
@@ -32,6 +34,8 @@ public class ArticleEntity {
     private String photoUrl;
     @Column
     private Timestamp date;
+    @OneToMany(mappedBy = "articleEntity", cascade = CascadeType.ALL)
+    private List<CommentEntity> comments;
 
     public static ArticleEntity convert(Article article) {
         return new ArticleEntity(
@@ -41,7 +45,8 @@ public class ArticleEntity {
                 article.getTitle(),
                 article.getText(),
                 article.getPhotoUrl(),
-                article.getDate()
+                article.getDate(),
+                null
         );
     }
 }
